@@ -1,4 +1,4 @@
-from flask import Flask,jsonify, request
+from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_cors import CORS
 import requests
@@ -28,7 +28,7 @@ class BE(Resource):
             'productos': productos,
             'total': total
         }
-        return jsonify(data)
+        return data
 
 api.add_resource(BE, '/api/BE')
 
