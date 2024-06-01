@@ -8,7 +8,7 @@ app = Flask(__name__)
 api = Api(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-orders = []
+boletas = []
 
 class BE(Resource):
     def post(self):
@@ -26,9 +26,14 @@ class BE(Resource):
         data = {
             'cliente': cliente,
             'productos': productos,
-            'total': total
+            'total': total,
+            'id': str(len(boletas)).zfill(6)
         }
+        boletas.append(data)
         return data
+    
+    def get(self, boleta_id):
+        return boletas
 
 api.add_resource(BE, '/api/BE')
 
