@@ -27,7 +27,7 @@ class BE(Resource):
             'cliente': cliente,
             'productos': productos,
             'total': total,
-            'id': str(len(boletas)).zfill(6)
+            'id': str(len(boletas)+1).zfill(6)
         }
         boletas.append(data)
         return data
