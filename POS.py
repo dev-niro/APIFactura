@@ -19,9 +19,12 @@ class BE(Resource):
         for x in body['products']:
             response = requests.get("http://localhost:27776/api/producto/%s" % x['id'])
             product = response.json()
-            product['quantity'] = int(x['quantity'])
-            total += (product['price']*int(x['quantity']))
-            productos.append(product)
+            if product['stock'] <= int(x['quantity']):
+                product['quantity'] = int(x['quantity'])
+                total += (product['price']*int(x['quantity']))
+                productos.append(product)
+            else:
+                return {'message': "Stock insuficiente del producto: %s" % product['name']}, 404
         data = {
             'documento': body['documento'],
             'tipo_envio': body['tipo_envio'],
