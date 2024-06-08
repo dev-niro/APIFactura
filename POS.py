@@ -29,7 +29,6 @@ class BE(Resource):
             response = requests.put("http://localhost:27776/api/producto/%s/reducirstock" % x['id'], json=x['quantity'])
         data = {
             'documento': body['documento'],
-            'tipo_envio': body['tipoEnvio'],
             'cliente': cliente,
             'productos': productos,
             'total': total,
