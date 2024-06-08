@@ -25,6 +25,8 @@ class BE(Resource):
                 productos.append(product)
             else:
                 return {'message': "Stock insuficiente del producto: %s" % product['name']}, 404
+        for x in productos:
+            response = requests.put("http://localhost:27776/api/producto/%s/reducirstock" % x['id'], json=x['quantity'])
         data = {
             'documento': body['documento'],
             'tipo_envio': body['tipoEnvio'],
