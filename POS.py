@@ -1,14 +1,13 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS
 import requests
-import json
 
 app = Flask(__name__)
 api = Api(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-boletas = []
+documentos = []
 
 class BE(Resource):
     def post(self):
@@ -24,18 +23,20 @@ class BE(Resource):
             total += (product['price']*int(x['quantity']))
             productos.append(product)
         data = {
+            'documento': body['documento'],
+            'tipo_envio': body['tipo_envio'],
             'cliente': cliente,
             'productos': productos,
             'total': total,
-            'id': str(len(boletas)+1).zfill(6)
+            'id': str(len(documentos)+1).zfill(6)
         }
-        boletas.append(data)
+        documentos.append(data)
         return data
     
     def get(self, boleta_id):
-        return boletas
+        boleta = next((obj for obj in documentos if obj['id'] == boleta_id), None)
+        return jsonify(boleta)
 
 api.add_resource(BE, '/api/BE')
 
-# if __name__ == '__main__':
 app.run(debug=True)
