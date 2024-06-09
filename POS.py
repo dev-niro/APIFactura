@@ -24,7 +24,7 @@ class BE(Resource):
                 total += (product['price']*int(x['quantity']))
                 productos.append(product)
             else:
-                return {'message': "Stock insuficiente del producto: %s, stock: %d" % (product['name'], product['stock']) }, 404
+                return {'message': "Stock insuficiente del producto: %s, stock disponible: %d" % (product['name'], product['stock']) }, 404
         for x in productos:
             response = requests.put("http://localhost:27776/api/producto/%s/reducirstock" % x['id'], json=x['quantity'])
         data = {
