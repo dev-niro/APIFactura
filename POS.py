@@ -24,7 +24,7 @@ class BE(Resource):
                 total += (product['price']*int(x['quantity']))
                 productos.append(product)
             else:
-                return {'message': "Stock insuficiente del producto: %s" % product['name']}, 404
+                return {'message': "Stock insuficiente del producto: %s, stock: %d" % (product['name'], product['stock']) }, 404
         for x in productos:
             response = requests.put("http://localhost:27776/api/producto/%s/reducirstock" % x['id'], json=x['quantity'])
         data = {
@@ -39,8 +39,8 @@ class BE(Resource):
     
     def get(self, boleta_id):
         boleta = next((obj for obj in documentos if obj['id'] == boleta_id), None)
-        return jsonify(boleta)
+        return boleta
 
-api.add_resource(BE, '/api/BE')
+api.add_resource(BE, '/api/BE', '/api/BE/<string:boleta_id>')
 
 app.run(debug=True)
