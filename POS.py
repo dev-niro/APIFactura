@@ -8,16 +8,17 @@ api = Api(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 documentos = []
+url = 'https://ferremas-resources.azurewebsites.net'
 
 class BE(Resource):
     def post(self):
         body = request.get_json()
-        response = requests.get("http://localhost:27776/api/cliente/%s" % body['client'])
+        response = requests.get("%s/api/cliente/%d" % (url, body['client']))
         cliente = response.json()
         productos = []
         total = 0
         for x in body['products']:
-            response = requests.get("http://localhost:27776/api/producto/%s" % x['id'])
+            response = requests.get("%s/api/producto/%d" % (url, x['id']))
             product = response.json()
             if product['stock'] >= int(x['quantity']):
                 product['quantity'] = int(x['quantity'])
@@ -26,7 +27,7 @@ class BE(Resource):
             else:
                 return {'message': "Stock insuficiente del producto: %s, stock disponible: %d" % (product['name'], product['stock']) }, 404
         for x in productos:
-            response = requests.put("http://localhost:27776/api/producto/%s/reducirstock" % x['id'], json=x['quantity'])
+            response = requests.put("%s/api/producto/%d/reducirstock" % (url, x['id']), json=x['quantity'])
         data = {
             'documento': body['documento'],
             'cliente': cliente,
