@@ -44,4 +44,5 @@ class BE(Resource):
 
 api.add_resource(BE, '/api/BE', '/api/BE/<string:boleta_id>')
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
