@@ -8,6 +8,7 @@ api = Api(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 documentos = []
+
 url = 'https://ferremas-resources.azurewebsites.net'
 
 class BE(Resource):
